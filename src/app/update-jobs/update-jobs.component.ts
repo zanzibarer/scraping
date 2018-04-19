@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UpdateJobsService } from './update-jobs.service';
 
 @Component({
   selector: 'app-update-jobs',
@@ -7,9 +8,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UpdateJobsComponent implements OnInit {
 
-  constructor() { }
+  jobData = [];
+  foundJob = [];
+  link = [];
+  constructor(private ujs: UpdateJobsService) { }
 
   ngOnInit() {
+    this.onUpdateServer();
+    this.ujs.connectFirebase().then(
+      (data) => {
+        this.jobData = data;
+        console.log(this.jobData);
+      }
+    );
+  }
+
+  onUpdateServer() {
+    this.ujs.setData();
+  }
+
+  onSearch(keyWord) {
+    this.foundJob = [];
+    this.link = [];
+    this.jobData.forEach(job => {
+      job.data.forEach(subJob => {
+        if (subJob.includes(keyWord.value)) {
+          const temp = subJob.split(';');
+          this.foundJob.push(temp[0]);
+          this.link.push(temp[1]);
+        }
+      });
+    });
   }
 
 }

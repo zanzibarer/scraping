@@ -1,3 +1,26 @@
-<p>
-  update-jobs works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4 col-1">
+      <div class="input-group mb-3">
+        <form class="form-inline">
+          <input value="กรม" type="text" class="form-control" placeholder="search..." aria-label="search" aria-describedby="basic-addon2"
+            #keyword>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit" (click)="onSearch(keyword)">Search</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div ng-if="foundJob">
+        <ul class="list-group">
+          <a *ngFor="let job of foundJob; let i=index" href="{{ link[i] }}" style="text-decoration:none;">
+            <li class="list-group-item">
+              {{ job }}
+            </li>
+          </a>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
